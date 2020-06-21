@@ -1,45 +1,10 @@
 # myExample
-===========
-├─ example/
-│  ├── Dockerfile                   制作镜像所使用/
-│  ├── README
-│  ├── deploy                       部署资源对象时使用的配置文件/
-│  │   ├── deployment.yaml          云服务的Deployment配置文件/
-│  │   ├── metrics_service.yaml     
-│  │   ├── prometheus.config.yml    prometheus抓取目标配置文件/
-│  │   ├── prometheus.deploy.yml    prometheus部署所使用Deployment/
-│  │   ├── prometheus.rbac.yml      prometheus权限配置文件/
-│  │   └── service.yaml
-│  ├── go.mod                       依赖管理/
-│  ├── go.sum                       依赖管理/
-│  ├── metrics                      Exporter/
-│  │   └── metrics.go/
-│  ├── metrics_version\             
-│  │   └── main.go\
-│  └── without_metrics             \
-│      └── main.go\
-└── nginx   
-    └── nginx-deployment.yaml
-    └── nginx-svc.yaml
-    
-    
-    
-主要是example/metrics/metrics.go和example/metrics_version/main.go，二者共同构成一个简单的exporter
+   
+主要是example/metrics/metrics.go和example/metrics_version/main.go，二者共同构成一个简单的exporter。
 
 example/metrics/metrics.go中：
-//初始化计时器
-func NewAdmissionLatency() *RequestLatency {
-	return &RequestLatency{
-		histo: requestLatency,
-		start: time.Now(),
-	}
-}
-//测量执行时间
-func (t *RequestLatency) Observe() {
-	(*t.histo).WithLabelValues().Observe(time.Now().Sub(t.start).Seconds())
-}
-//增加请求计数
-func RequestIncrease() {
+NewAdmissionLatency() *RequestLatency用来初始化计时器，(t *RequestLatency) Observe()用于测量执行时间，RequestIncrease()用来增加请求计数。
+ {
 	requestCount.WithLabelValues().Add(1)
 }
 
