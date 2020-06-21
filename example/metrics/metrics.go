@@ -21,10 +21,14 @@ var (
 			Buckets:   []float64{0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 30.0, 60.0, 120.0, 300.0},
 		}, []string{},
 	)
+
+    	cpuTemp = prometheus.NewGauge(
+           	prometheus.GaugeOpts{
+            	Name: "cpu_Temperature", 
+            	Help: "Cpu's temperature.", 
+    	})
 )
 
-// AdmissionLatency measures latency / execution time of Admission Control execution
-// usual usage pattern is: timer := NewAdmissionLatency() ; compute ; timer.Observe()
 type RequestLatency struct {
 	histo *prometheus.HistogramVec
 	start time.Time
@@ -35,8 +39,6 @@ func Register() {
 	prometheus.MustRegister(requestLatency)
 }
 
-
-// NewAdmissionLatency provides a timer for admission latency; call Observe() on it to measure
 //初始化计时器
 func NewAdmissionLatency() *RequestLatency {
 	return &RequestLatency{
@@ -45,15 +47,18 @@ func NewAdmissionLatency() *RequestLatency {
 	}
 }
 
-// Observe measures the execution time from when the AdmissionLatency was created
 //测量执行时间
 func (t *RequestLatency) Observe() {
 	(*t.histo).WithLabelValues().Observe(time.Now().Sub(t.start).Seconds())
 }
 
 
-// RequestIncrease increases the counter of request handled by this service
 //增加请求计数
 func RequestIncrease() {
 	requestCount.WithLabelValues().Add(1)
+}
+
+//获取cpu温度
+func  MeasureTemperature() {
+    	cpuTemp.Set(float64(rand.Int31n(30)+45))
 }
