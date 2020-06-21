@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//定义
 var (
 	requestCount = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
@@ -36,6 +37,7 @@ func Register() {
 
 
 // NewAdmissionLatency provides a timer for admission latency; call Observe() on it to measure
+//初始化计时器
 func NewAdmissionLatency() *RequestLatency {
 	return &RequestLatency{
 		histo: requestLatency,
@@ -44,12 +46,14 @@ func NewAdmissionLatency() *RequestLatency {
 }
 
 // Observe measures the execution time from when the AdmissionLatency was created
+//测量执行时间
 func (t *RequestLatency) Observe() {
 	(*t.histo).WithLabelValues().Observe(time.Now().Sub(t.start).Seconds())
 }
 
 
 // RequestIncrease increases the counter of request handled by this service
+//增加请求计数
 func RequestIncrease() {
 	requestCount.WithLabelValues().Add(1)
 }
