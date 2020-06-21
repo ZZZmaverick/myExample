@@ -1,0 +1,21 @@
+#部署资源对象时使用的配置文件
+apiVersion: apps/v1    #Deployment对象版本信息
+kind: Deployment
+metadata:
+  name: example-service    #Deployment名称
+spec:
+  replicas: 2    #Pod个数
+  selector:
+    matchLabels:
+      app: example    #控制标记“app: example”的Pod
+  template:
+    metadata:
+      labels:
+        app: example    #标记Pod
+    spec:
+      containers:
+        - name: back-end    #容器名
+          image: example:0.2     #容器使用镜像
+          imagePullPolicy: Never    #不需下载，本地镜像已使用Dockerfile制作好
+          ports:
+            - containerPort: 5565
