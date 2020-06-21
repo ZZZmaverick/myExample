@@ -23,6 +23,7 @@ func main(){
 func index(w http.ResponseWriter, r *http.Request) {
 	timer:=metrics.NewAdmissionLatency()	// 记录从访问路由到响应的延迟
 	metrics.RequestIncrease()	//请求次数加一
+	metrics.getCpuTemperature()	//调用metrics中的cpu温度获取函数
 	num:=os.Getenv("Num")
 	if num==""{
 		Fibonacci(10)	//延时
