@@ -59,6 +59,6 @@ func RequestIncrease() {
 }
 
 //获取cpu温度
-func  MeasureTemperature() {
+func getCpuTemperature() {
     	cpuTemp.Set(float64(rand.Int31n(30)+45))
 }
