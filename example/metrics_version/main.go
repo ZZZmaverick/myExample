@@ -9,7 +9,7 @@ import (
 	"example/metrics"
 )
 
-// 设置两个处理函数，前者为index，后者为Handler函数（来自"github.com/prometheus/client_golang/prometheus/promhttp"）
+// 设置两个处理函数，前者为index，后者为Handler函数（来自"github.com/prometheus/client_golang/prometheus/promhttp"，将所有metrics中的指标都响应给请求）
 func main(){
 	http.HandleFunc("/abc", index)
 	http.Handle("/metrics", promhttp.Handler())
